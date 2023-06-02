@@ -65,7 +65,7 @@ trait ProductsTraits
         } else {
             return response()->json([
                 'status' => false,
-                'respon_code' => Response::HTTP_NOT_MODIFIED,
+                'respon code' => Response::HTTP_NOT_MODIFIED,
                 'message' => 'Data failled modify'
             ]);
         }

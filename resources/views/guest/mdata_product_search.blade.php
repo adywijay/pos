@@ -12,7 +12,8 @@
                     </i>
                 </blockquote>
                 <div class="card card-input">
-                    <input id="search" placeholder="Silakan input nama produk berdasarkan field 'title' pada db" type="text" name="search">
+                    <input id="search" placeholder="Silakan input nama produk berdasarkan field 'title' pada db"
+                        type="text" name="search">
                     <i class="material-icons grey-text">search</i>
                 </div>
                 <div class="modal-footer">
@@ -257,7 +258,7 @@
                 overflow: auto;
                 /*box-shadow: inset -12px 0 9px -7px rgba(0,0,0,0.25);*/
                 /*overflow-x: scroll;
-                                                                  overflow-y: visible;*/
+                                                                      overflow-y: visible;*/
             }
         </style>
         <div class="right-align">
@@ -290,6 +291,7 @@
         function callFormAddProduct() {
             $('#modal1').modal('open');
         }
+
         function tutupFormAddProduct() {
             $('#modal1').trigger('reset');
             $('#modal1').modal('close');
@@ -490,7 +492,7 @@
                 event.preventDefault();
                 var search = $('#search').val();
                 if (search === '') {
-                    alert('Url Tidak boleh kosong');
+                    alert('inputan tidak boleh kosong');
                 } else {
                     $.ajax({
                         headers: {
@@ -507,22 +509,28 @@
                             $("#loader").show();
                         },
                         success: function(data) {
-                            //console.log(data);
+                            //console.log(data.length);
                             $('#loader').hide();
                             $('#frm-search').trigger("reset");
                             let html = "";
-                            $(data).each(function(i, data) {
-                                html += '<tr>' +
-                                        '<td>' + data.title + '</td>' +
-                                        '<td>' + data.price + '</td>' +
-                                        '<td>' + data.brand + '</td>' +
-                                        '<td>' + data.discon_percentage + '</td>' +
-                                        '<td>' + '<a href="' + data.thumbnail + '" target="_blank">' + 'Details' + '</a></td>' +
-                                            '<td><a href="javascript:void(0)" onclick="getbyproduct(' + data.id +')"' +
-                                            'class="modal-trigger btn-floating btn-small waves-effect waves-light blue nopadding">' +
-                                            '<i class="medium material-icons white-text">edit</i></a>' + '</td>' +
-                                    '</tr>';
-                            })
+                            if (data.length === 0) {
+                                Swal.fire('404', 'Tidak ditemukan data', 'warning');
+                                $('#loader').show();
+                            } else {
+                                $(data).each(function(i, data) {
+                                    console.log(data.length);
+                                    html += '<tr>' +
+                                            '<td>' + data.title + '</td>' +
+                                            '<td>' + data.price + '</td>' +
+                                            '<td>' + data.brand + '</td>' +
+                                            '<td>' + data.discon_percentage + '</td>' +
+                                            '<td>' + '<a href="' + data.thumbnail + '" target="_blank">' + 'Details' + '</a></td>' +
+                                                '<td><a href="javascript:void(0)" onclick="getbyproduct(' + data.id +')"' +
+                                                'class="modal-trigger btn-floating btn-small waves-effect waves-light blue nopadding">' +
+                                                '<i class="medium material-icons white-text">edit</i></a>' + '</td>' +
+                                        '</tr>';
+                                })
+                            }
                             $('#list-isi-tabel').html(html);
                         }
                     })
